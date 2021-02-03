@@ -2,8 +2,7 @@
     <div>
         <h1> {{ msg }} </h1>
         <p>
-            Je me présente, je m'appelle Maureen.
-            J'ai 22 ans, et actuellement en cours de vueJs :D
+            Présentation de l'animal
         </p>
         <img classe="img_présentation" alt="moi" src="../assets/logo.png" />
     </div>
@@ -13,6 +12,13 @@ export default {
   name: "Presentation",
   props: {
     msg: String
+  },
+  methods: {
+    getDescription() {
+      let objAnimal = localStorage.getItem(this.$route.params.id);
+      let objJson = JSON.parse(objAnimal);
+      return objJson.description
+    }
   }
 };
 </script>

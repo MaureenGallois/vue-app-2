@@ -1,19 +1,47 @@
 <template>
-  <div class="about">
-    <h1>Bonjour</h1>
-    <div>
-        <p> Bienvenue sur la page de la SPA, catégorie toutou :)</p>
-        <p> Tous ces petits chiens attendent de trouver une famille aimante, gentille, qui prendra soin de lui </p>
-    </div>
-    <div class="list_animaux">
-      <v-list class="box_animaux" v-for="animal in animaux" :key="animal.id">
+  <div>
+    <div class="liste">
+      <h1>Bonjour</h1>
+      <div>
+          <p> Bienvenue sur la page de la SPA, catégorie toutou :)</p>
+          <p> Tous ces petits chiens attendent de trouver une famille aimante, gentille, qui prendra soin de lui </p>
+      </div>
+      <div class="global">
+        <div class="search_list">
+          <div class="search_race">
+              <input type="text" v-model="searchAnimal" placeholder="Entrer la race d'un animal" />
+          </div>
           <div>
-            <img class="icone_animal" :src="animal.photo">
+            <v-list class="box_animaux" v-for="animal in filteredAnimaux" :key="animal.id">
+                <div>
+                  <img class="icone_animal" :src="animal.photo">
+                </div>
+                <div class="nom_animal">
+                  {{ animal.nom}}
+                </div>
+                <div class="ajout_favoris">
+                  <button
+                    :disabled="animal.nom === listFav"
+                    @click="ajout_favori(animal.nom)"
+                  > ♡</button>
+                  <button>
+                    <router-link :to="{ name: 'Animal', params: { id: animal.id }}" >
+                      Voir détails
+                    </router-link>
+                  </button>
+                </div>
+              </v-list>
+            </div>
           </div>
-          <div class="nom_animal">
-            {{ animal.nom }}
-          </div>
-        </v-list>
+        <div class="favori">
+          <h2>Votre liste de favoris</h2>
+            <v-list v-for="(listFav, index) in listFavori" :key="index">
+                <li class="nom_animal">
+                  {{ listFav }}
+                </li>
+              </v-list>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -23,7 +51,8 @@ export default {
   name: "Bonjour",
   data() {
     return {
-      search: '',
+      searchAnimal: '',
+      listFavori: [],
       "animaux": [
         {
             id: 1,
@@ -77,11 +106,53 @@ export default {
       ]
     }
   },
+  created() {
+    for(var i=0; i< this.animaux.length; i++) {
+      localStorage.setItem(this.animaux[i].id, JSON.stringify(this.animaux[i]))
+    }
+  },
+  computed: {
+        filteredAnimaux() {
+            var animaux_array = this.animaux;
+            var searchAnimal = this.searchAnimal;
+
+            if(!searchAnimal){
+                return animaux_array;
+            }
+
+            searchAnimal = searchAnimal.trim().toLowerCase();
+
+            animaux_array = animaux_array.filter(item => {
+                if(item.race.toLowerCase().indexOf(searchAnimal) !== -1){
+                    return item;
+                }
+            })
+
+            // Return an array with the filtered data.
+            return animaux_array;;
+        }
+    },
+    methods: {
+      ajout_favori(value){
+        this.listFavori.push(value)
+      },
+      detail() {
+
+      }
+    }
 };
 </script>
 <style>
 
-.search_book{
+.global {
+  display: flex;
+  flex-direction: row;
+}
+
+.search_list {
+  width: -webkit-fill-available;
+}
+.search_race{
   display: flex;
   flex-direction: column-reverse;
   margin: 20px auto;

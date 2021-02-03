@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Bonjour from "../views/Bonjour.vue";
-import Personne from "../views/Personne.vue"
+import Animal from "../views/Animal.vue"
 
 Vue.use(VueRouter);
 
@@ -12,9 +12,9 @@ const routes = [
     component: Bonjour
   },
   {
-    path: "/personne",
-    name: "Personne",
-    component: Personne
+    path: "/animal/:id",
+    name: "Animal",
+    component: Animal
   }
 ];
 
