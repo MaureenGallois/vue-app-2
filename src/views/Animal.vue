@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <Presentation :msg= "getName()" />
+    <Presentation :animal= "animal"/>
   </div>
 </template>
 
@@ -12,17 +12,20 @@ export default {
   name: "Animal",
   data() {
     return {
+      animal: {}
     }
   },
   components: {
     Presentation
   },
+  created() {
+    this.getAnimal();
+  },
   methods: {
-    getName() {
+    getAnimal() {
       let objAnimal = localStorage.getItem(this.$route.params.id);
-      let objJson = JSON.parse(objAnimal);
-      return objJson.nom
-    }
+      this.animal = JSON.parse(objAnimal);
+    },
   }
 };
 </script>

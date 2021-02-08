@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="liste">
-      <h1>Bonjour</h1>
+      <div class="position">
+        <img class="img_logo_spa" src="../assets/spa.png"/>
+        <div class="center">
+          <h1>Bonjour</h1>
+        </div>
+      </div>
       <div>
           <p> Bienvenue sur la page de la SPA, catégorie toutou :)</p>
           <p> Tous ces petits chiens attendent de trouver une famille aimante, gentille, qui prendra soin de lui </p>
@@ -21,7 +26,7 @@
                 </div>
                 <div class="ajout_favoris">
                   <button
-                    :disabled="animal.nom === listFav"
+                    :disabled="buttonDisabled != false"
                     @click="ajout_favori(animal.nom)"
                   > ♡</button>
                   <button>
@@ -53,6 +58,7 @@ export default {
     return {
       searchAnimal: '',
       listFavori: [],
+      buttonDisabled : false,
       "animaux": [
         {
             id: 1,
@@ -102,7 +108,6 @@ export default {
             photo: "https://images.dog.ceo/breeds/eskimo/n02109961_9348.jpg",
             description: "Très joueur"
         }
-
       ]
     }
   },
@@ -135,14 +140,23 @@ export default {
     methods: {
       ajout_favori(value){
         this.listFavori.push(value)
+        this.buttonDisabled = true;
       },
-      detail() {
-
-      }
     }
 };
 </script>
 <style>
+
+.position{
+  display: flex;
+  flex-direction: row;
+}
+
+.img_logo_spa {
+    width: 60px;
+    height: fit-content;
+    margin-right: 40%;
+}
 
 .global {
   display: flex;

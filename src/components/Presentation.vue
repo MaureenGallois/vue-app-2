@@ -1,32 +1,46 @@
 <template>
     <div>
-        <h1> {{ msg }} </h1>
+        <h1> {{ animal.nom }} </h1>
         <p>
             Présentation de l'animal
         </p>
-        <img classe="img_présentation" alt="moi" src="../assets/logo.png" />
+        <div class="presentation_animal">
+          <img style="padding-left: 25%; padding-right: 5%;" alt="dog" :src="animal.photo" />
+          <div>
+            <div>
+                <p class="texte"> Age: </p>
+                {{ animal.age }}
+              </div>
+            <div>
+              <p class="texte"> Race: </p>
+              {{ animal.race }}
+            </div>
+            <div>
+              <p class="texte"> Description: </p>
+              {{ animal.description }}
+            </div>
+          </div>
+        </div>
     </div>
 </template>
 <script>
 export default {
   name: "Presentation",
   props: {
-    msg: String
+    msg: String,
+    animal: {},
   },
-  methods: {
-    getDescription() {
-      let objAnimal = localStorage.getItem(this.$route.params.id);
-      let objJson = JSON.parse(objAnimal);
-      return objJson.description
-    }
-  }
 };
 </script>
 <style scoped>
 
-.img_presentation {
-    width: 50%;
-    height: 50%;
-    align-content: center;
+.presentation_animal{
+  display: flex;
+  flex-direction: row;
 }
+
+.texte {
+  font-weight: bold;
+}
+
 </style>
